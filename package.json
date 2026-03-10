@@ -4,9 +4,9 @@
   "description": "Professional MRZ passport testing tool",
   "scripts": {
     "dev": "next dev",
-    "build": "next build && npx @cloudflare/next-on-pages",
+    "build": "next build",
     "pages:build": "npx @cloudflare/next-on-pages",
-    "deploy": "npm run build && wrangler deploy",
+    "deploy": "npm run pages:build && wrangler deploy",
     "start": "next start",
     "lint": "next lint"
   },
