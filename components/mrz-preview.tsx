@@ -171,6 +171,10 @@ export default function MRZPreview({ row }: MRZPreviewProps) {
           <div className="text-[9px] font-bold text-slate-500 uppercase tracking-tighter">Gender</div>
           <div className="text-xs font-mono font-bold text-slate-900 dark:text-slate-100">{row.sex === 'M' ? 'Male (M)' : row.sex === 'F' ? 'Female (F)' : 'N/A'}</div>
         </div>
+        <div className="space-y-0.5">
+          <div className="text-[9px] font-bold text-slate-500 uppercase tracking-tighter">Extra Info</div>
+          <div className="text-xs font-mono font-bold text-slate-900 dark:text-slate-100 truncate">{row.extraInfo || 'N/A'}</div>
+        </div>
       </div>
     </Card>
   )

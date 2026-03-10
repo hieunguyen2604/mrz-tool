@@ -12,6 +12,7 @@ interface MRZData {
   dateOfBirth: string
   expiryDate: string
   sex: string
+  extraInfo?: string
 }
 
 interface MRZResult {
@@ -98,24 +99,29 @@ export function generateMRZLine2(data: MRZData): string {
   const nationality = padMRZ(data.nationality, 3)
 
   // Date of Birth (6 chars, YYMMDD)
-  const dob = data.dateOfBirth.slice(-6)
+  const dob = data.dateOfBirth.slice(-6).padEnd(6, '0')
 
-  // Sex (1 char, M/F)
-  const sex = data.sex.toUpperCase() === 'M' ? 'M' : 'F'
+  // Sex (1 char, M/F/X)
+  let sex = data.sex.toUpperCase()
+  if (!['M', 'F'].includes(sex)) sex = '<'
 
   // Expiry Date (6 chars, YYMMDD)
-  const expiry = data.expiryDate.slice(-6)
+  const expiry = data.expiryDate.slice(-6).padEnd(6, '0')
+
+  // Optional Data / Extra Info (14 chars)
+  const optionalData = padMRZ(data.extraInfo || '', 14)
 
   // Calculate check digits
   const passportCheck = calculateChecksum(passportPadded)
   const dobCheck = calculateChecksum(dob)
   const expiryCheck = calculateChecksum(expiry)
+  const optionalCheck = calculateChecksum(optionalData)
 
-  // Composite check (entire line2 without the last check digit)
-  const composite = `${passportPadded}${passportCheck}${nationality}${dob}${dobCheck}${sex}${expiry}${expiryCheck}`
-  const compositeCheck = calculateChecksum(composite)
+  // Composite check (Passport + Check1 + DOB + Check2 + Expiry + Check3 + Optional + Check4)
+  const compositeString = `${passportPadded}${passportCheck}${dob}${dobCheck}${expiry}${expiryCheck}${optionalData}${optionalCheck}`
+  const compositeCheck = calculateChecksum(compositeString)
 
-  return `${composite}${compositeCheck}<<<<<<`
+  return `${passportPadded}${passportCheck}${nationality}${dob}${dobCheck}${sex}${expiry}${expiryCheck}${optionalData}${optionalCheck}${compositeCheck}`
 }
 
 /**
@@ -160,6 +166,7 @@ export function validateMRZ(line1: string, line2: string): {
     dateOfBirth: string
     expiryDate: string
     sex: string
+    extraInfo: string
   }
 } {
   const errors: string[] = []
@@ -190,7 +197,9 @@ export function validateMRZ(line1: string, line2: string): {
   const sex = line2[20]
   const expiry = line2.substring(21, 27)
   const expiryCheck = line2[27]
-  const compositeCheck = line2[28]
+  const optionalData = line2.substring(28, 42)
+  const optionalCheck = line2[42]
+  const compositeCheck = line2[43]
 
   // Validate check digits
   if (!validateMRZCheckDigit(line2.substring(0, 9), passportCheck)) {
@@ -202,9 +211,12 @@ export function validateMRZ(line1: string, line2: string): {
   if (!validateMRZCheckDigit(expiry, expiryCheck)) {
     errors.push('Invalid expiry date check digit')
   }
+  if (!validateMRZCheckDigit(optionalData, optionalCheck)) {
+    errors.push('Invalid optional data check digit')
+  }
 
   // Validate composite check
-  const compositeData = `${line2.substring(0, 9)}${passportCheck}${nationality}${dob}${dobCheck}${sex}${expiry}${expiryCheck}`
+  const compositeData = `${line2.substring(0, 9)}${passportCheck}${dob}${dobCheck}${expiry}${expiryCheck}${optionalData}${optionalCheck}`
   if (!validateMRZCheckDigit(compositeData, compositeCheck)) {
     errors.push('Invalid composite check digit')
   }
@@ -213,7 +225,7 @@ export function validateMRZ(line1: string, line2: string): {
   const dataLine1 = line1.substring(5, 44)
   const [namesPart, given] = dataLine1.split('<<')
   const surname = namesPart.replace(/<+$/, '')
-  const givenName = given.replace(/<+$/, '')
+  const givenName = (given || '').replace(/<+$/, '')
 
   return {
     isValid: errors.length === 0,
@@ -227,6 +239,7 @@ export function validateMRZ(line1: string, line2: string): {
       dateOfBirth: dob,
       expiryDate: expiry,
       sex,
+      extraInfo: optionalData.replace(/<+$/, ''),
     },
   }
 }

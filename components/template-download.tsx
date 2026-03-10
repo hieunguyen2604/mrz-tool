@@ -14,6 +14,7 @@ const TEMPLATE_DATA = [
     DateOfBirth: '901114',
     ExpiryDate: '261016',
     Sex: 'F',
+    ExtraInfo: '123456789',
   },
 ]
 

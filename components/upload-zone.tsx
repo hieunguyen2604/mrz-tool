@@ -22,6 +22,7 @@ const SUPPORTED_COLUMNS = {
   dateOfBirth: ['dateofbirth', 'dob', 'date of birth', 'birth date'],
   expiryDate: ['expirydate', 'expiry', 'expiry date', 'exp date', 'expiration'],
   sex: ['sex', 'gender'],
+  extraInfo: ['extrainfo', 'optionaldata', 'idnumber', 'extra info'],
 }
 
 export default function UploadZone({ onUpload }: UploadZoneProps) {
@@ -73,6 +74,7 @@ export default function UploadZone({ onUpload }: UploadZoneProps) {
               dateOfBirth: mappedRow.dateOfBirth,
               expiryDate: mappedRow.expiryDate,
               sex: mappedRow.sex,
+              extraInfo: mappedRow.extraInfo,
             }
 
             const mrz = generateMRZ(mrzData)
@@ -193,7 +195,7 @@ export default function UploadZone({ onUpload }: UploadZoneProps) {
         <div className="glass rounded-2xl p-6 border-white/5">
           <h4 className="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-3">Schema Requirements</h4>
           <div className="flex flex-wrap gap-2">
-            {['Surname', 'Given Name', 'Passport Number', 'Nationality', 'Issuer', 'Date of Birth (YYMMDD)', 'Expiry Date (YYMMDD)', 'Sex (M/F)'].map((col) => (
+            {['Surname', 'Given Name', 'Passport Number', 'Nationality', 'Issuer', 'Date of Birth (YYMMDD)', 'Expiry Date (YYMMDD)', 'Sex (M/F)', 'Extra Info'].map((col) => (
               <span key={col} className="px-3 py-1 bg-slate-100 dark:bg-white/5 rounded-full text-[10px] font-bold text-slate-600 dark:text-slate-300 border border-white/10">
                 {col}
               </span>

@@ -20,6 +20,7 @@ export interface MRZRow {
   dateOfBirth: string
   expiryDate: string
   sex: string
+  extraInfo: string
   mrzLine1: string
   mrzLine2: string
 }
@@ -38,6 +39,7 @@ export default function Home() {
       dateOfBirth: '',
       expiryDate: '',
       sex: 'M',
+      extraInfo: '',
       mrzLine1: '',
       mrzLine2: '',
     }

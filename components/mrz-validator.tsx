@@ -45,7 +45,7 @@ export default function MRZValidator() {
       </CardHeader>
       <CardContent className="space-y-4">
         <Textarea
-          placeholder={`Paste your MRZ lines here:\nP<USANOWATKA<<DIANN<<<<<<<<<<<<<<<<<<\n5432636878USA9011148M2610162<<<<<<<<<<<<`}
+          placeholder={`Paste your MRZ lines here:\nP<USANOWATKA<<DIANN<<<<<<<<<<<<<<<<<<<<<<<<<\n5432636878USA9011148M2610162336874658<716808`}
           value={mrzInput}
           onChange={(e) => setMrzInput(e.target.value)}
           className="font-mono text-sm min-h-24"
@@ -100,7 +100,8 @@ export default function MRZValidator() {
                   <div className="space-y-1 text-sm">
                     <div><strong>Issuer:</strong> {validationResult.data.issuer}</div>
                     <div><strong>Nationality:</strong> {validationResult.data.nationality}</div>
-                    <div><strong>Sex:</strong> {validationResult.data.sex === 'M' ? 'Male' : validationResult.data.sex === 'F' ? 'Female' : '-'}</div>
+                    <div><strong>Sex:</strong> {validationResult.data.sex === 'M' ? 'Male' : validationResult.data.sex === 'F' ? 'Female' : 'Unspecified'}</div>
+                    <div><strong>Extra Info:</strong> <span className="font-mono">{validationResult.data.extraInfo || '-'}</span></div>
                   </div>
                 </div>
                 <div>

@@ -42,6 +42,7 @@ export default function PassengerDetailForm({
       dateOfBirth: updated.dateOfBirth,
       expiryDate: updated.expiryDate,
       sex: updated.sex,
+      extraInfo: updated.extraInfo,
     })
     
     updated.mrzLine1 = mrz.line1
@@ -148,6 +149,18 @@ export default function PassengerDetailForm({
               onChange={(e) => handleChange('issuer', e.target.value.toUpperCase().slice(0, 3))}
               className="glass border-white/10 h-10 px-3 font-bold focus-visible:ring-blue-500/50"
               placeholder="USA"
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4">
+          <div className="space-y-2">
+            <Label className="text-[10px] font-bold uppercase text-slate-500 tracking-wider">Extra Info</Label>
+            <Input
+              value={formData.extraInfo}
+              onChange={(e) => handleChange('extraInfo', e.target.value.toUpperCase())}
+              className="glass border-white/10 h-10 px-3 font-mono focus-visible:ring-blue-500/50"
+              placeholder="12345678901234"
             />
           </div>
         </div>
