@@ -237,7 +237,7 @@ export function validateMRZ(line1: string, line2: string): {
 export function isValidDate(dateStr: string): boolean {
   if (!/^\d{6}$/.test(dateStr)) return false
   
-  const year = parseInt(dateStr.slice(0, 2))
+  // const year = parseInt(dateStr.slice(0, 2))
   const month = parseInt(dateStr.slice(2, 4))
   const day = parseInt(dateStr.slice(4, 6))
   
