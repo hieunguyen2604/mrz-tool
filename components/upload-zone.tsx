@@ -35,9 +35,9 @@ export default function UploadZone({ onUpload }: UploadZoneProps) {
       const reader = new FileReader()
       reader.onload = (e) => {
         const data = e.target?.result
-        const workbook = XLSX.read(data, { type: 'array' })
+        const workbook = XLSX.read(data, { type: 'array', raw: true })
         const firstSheet = workbook.Sheets[workbook.SheetNames[0]]
-        const rows: any[] = XLSX.utils.sheet_to_json(firstSheet)
+        const rows: any[] = XLSX.utils.sheet_to_json(firstSheet, { raw: true, defval: '' })
 
         if (rows.length === 0) {
           setMessage({ type: 'error', text: 'No data found in file' })
