@@ -12,10 +12,26 @@ interface DownloadPanelProps {
 
 export default function DownloadPanel({ rows }: DownloadPanelProps) {
   const getExportData = () => {
-    return rows.map(({ mrzLine1, mrzLine2, ...rest }) => ({
-      ...rest,
-      MRZ: `${mrzLine1}\n${mrzLine2}`
-    }))
+    return rows.flatMap(({ mrzLine1, mrzLine2, ...rest }) => [
+      {
+        ...rest,
+        MRZ: mrzLine1
+      },
+      {
+        // Empty all other fields for the second line row to keep it clean
+        id: '',
+        surname: '',
+        givenName: '',
+        passportNumber: '',
+        nationality: '',
+        issuer: '',
+        dateOfBirth: '',
+        expiryDate: '',
+        sex: '',
+        extraInfo: '',
+        MRZ: mrzLine2
+      }
+    ])
   }
 
   const downloadExcel = () => {
