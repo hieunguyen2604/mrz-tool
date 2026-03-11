@@ -81,7 +81,7 @@ export default function Home() {
               </div>
               <div>
                 <h1 className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600 dark:from-white dark:to-slate-400">
-                  MRZ Lab Tool
+                  MRZ Lab Tool <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-500 border border-blue-500/20 align-middle ml-1">v1.2.1</span>
                 </h1>
                 <p className="text-[10px] uppercase tracking-[0.2em] font-semibold text-slate-500 dark:text-slate-400">
                   ICAO 9303 TD3 Standard
@@ -264,7 +264,7 @@ export default function Home() {
               © 2024 MRZ Lab • Professional Edition
             </p>
             <div className="flex gap-4">
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-500/10 text-blue-500 border border-blue-500/20">v1.2.0</span>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-500/10 text-blue-500 border border-blue-500/20">v1.2.1</span>
             </div>
           </div>
         </div>
