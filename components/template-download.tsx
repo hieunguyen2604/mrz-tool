@@ -38,7 +38,7 @@ export default function TemplateDownload() {
     if (type === 'xlsx') {
       XLSX.writeFile(workbook, 'mrz_template.xlsx')
     } else {
-      const csv = XLSX.utils.sheet_to_csv(worksheet)
+      const csv = XLSX.utils.sheet_to_csv(worksheet, { forceQuotes: true })
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
       const link = document.createElement('a')
       link.href = URL.createObjectURL(blob)
