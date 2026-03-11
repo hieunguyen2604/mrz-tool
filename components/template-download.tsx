@@ -21,6 +21,17 @@ const TEMPLATE_DATA = [
 export default function TemplateDownload() {
   const downloadTemplate = (type: 'xlsx' | 'csv') => {
     const worksheet = XLSX.utils.json_to_sheet(TEMPLATE_DATA)
+    
+    // Force all cells to be strings to prevent Excel auto-formatting
+    Object.keys(worksheet).forEach(key => {
+      if (key.startsWith('!')) return
+      const cell = worksheet[key]
+      if (cell && typeof cell === 'object') {
+        cell.t = 's'
+        cell.z = '@'
+      }
+    })
+
     const workbook = XLSX.utils.book_new()
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Template')
 
