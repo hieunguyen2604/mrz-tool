@@ -44,6 +44,17 @@ export default function DownloadPanel({ rows }: DownloadPanelProps) {
 
     const exportData = getExportData()
     const worksheet = XLSX.utils.json_to_sheet(exportData)
+    
+    // Force all cells to be strings to prevent Excel auto-formatting
+    Object.keys(worksheet).forEach(key => {
+      if (key.startsWith('!')) return
+      const cell = worksheet[key]
+      if (cell && typeof cell === 'object') {
+        cell.t = 's'
+        cell.z = '@'
+      }
+    })
+
     const csv = XLSX.utils.sheet_to_csv(worksheet)
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
     const link = document.createElement('a')
